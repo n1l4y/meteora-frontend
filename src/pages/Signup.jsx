@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signup } from "../js/helper";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +8,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [location, setLocation] = useState({ latitude: null, longitude: null });
-  const[loading, setLoading] = useState("Sign up");
+  const [loading, setLoading] = useState("Sign up");
+  const [locationGranted, setLocationGranted] = useState(false);
+  
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -23,6 +25,7 @@ const Signup = () => {
         (error) => {
           setError("Error getting location");
           console.error("Geolocation error:", error);
+          toast.error("Grant location permission to continue");
         }
       );
     } else {
@@ -34,6 +37,10 @@ const Signup = () => {
     }
   };
 
+  useEffect(() => {
+    getLocation();
+  }, [])
+
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -42,7 +49,7 @@ const Signup = () => {
       return;
     }
     if (!location.latitude || !location.longitude) {
-      getLocation();
+      toast.error("Grant location permission to continue");
       return;
     }
 
@@ -63,6 +70,7 @@ const Signup = () => {
       toast.success("Signup Successfully.");
       // Redirect or show success message
     } catch (err) {
+      console.log(err);
       setError(err.msg || "Signup failed");
       toast.error(err.msg || "Signup failed");
     } finally {

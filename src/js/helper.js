@@ -6,10 +6,10 @@ const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 // Sign up function
 export const signup = async (name, email, password, latitude, longitude) => {
   // Password validation: at least 8 characters, 1 uppercase letter, and 1 number
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/;
   
   if (!passwordRegex.test(password)) {
-    throw { msg: 'Password must be at least 8 characters long, contain at least 1 uppercase letter and 1 number' };
+    throw { msg: 'Password must be at least 8 characters, contain 1 uppercase letter and 1 number' };
   }
 
   try {
