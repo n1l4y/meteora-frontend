@@ -1,12 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
 
 function App() {
-
   return (
     <Router>
       <ToastContainer />
@@ -19,6 +19,8 @@ function App() {
 
         {/* Signup Route */}
         <Route path="/signup" element={<Signup />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
