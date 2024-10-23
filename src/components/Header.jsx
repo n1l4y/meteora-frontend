@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
+const API_URL = `https://meteora-backend-three.vercel.app/api/auth`;
 import axios from "axios";
 
 const Header = ({ isAuthenticated, updateWeather }) => {
@@ -10,15 +10,20 @@ const Header = ({ isAuthenticated, updateWeather }) => {
         async (res) => {
           const { latitude, longitude } = res.coords;
           updateWeather(`lat=${latitude}`, `lon=${longitude}`);
-          const token = localStorage.getItem('atoken');
-          if(token) {
-            const response = await axios.patch(`${API_URL}/updatelonglat`, {
-              latitude,
-              longitude
-            }, {
-              headers: {
-                'x-auth-token': token
-              }});
+          const token = localStorage.getItem("atoken");
+          if (token) {
+            const response = await axios.patch(
+              `${API_URL}/updatelonglat`,
+              {
+                latitude,
+                longitude,
+              },
+              {
+                headers: {
+                  "x-auth-token": token,
+                },
+              }
+            );
           }
         },
         (err) => {
